@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MyNotes</string>
+    <string name="hint_note">Начните ввод</string>
+    <string name="hint_note_title">Заголовок</string>
+    <string name="tooltip_add_button">Создать заметку</string>
+    <string name="hint_create_button">Добавить заметку</string>
+</resources>

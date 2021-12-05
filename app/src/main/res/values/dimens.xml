@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="note_text_size">20sp</dimen>
+    <dimen name="margin">3dp</dimen>
+    <dimen name="margin_body">6dp</dimen>
+    <dimen name="margin_floating_button">20dp</dimen>
+    <dimen name="corner_radius">100dp</dimen>
+    <dimen name="margin_edit_text">10dp</dimen>
+    <dimen name="title_text_size">30sp</dimen>
+    <dimen name="header_text_size">25sp</dimen>
+    <dimen name="date_text_size">15sp</dimen>
+</resources>
