@@ -29,22 +29,22 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatEditText
-        style="@style/EditText"
         android:id="@+id/edit_view_title_note"
+        style="@style/EditText"
+        android:layout_marginTop="@dimen/margin_edit_text"
+        android:layout_marginBottom="@dimen/margin_edit_text"
         android:layout_weight="1"
         android:gravity="center"
         android:hint="@string/hint_note_title"
         android:textSize="@dimen/title_text_size"
-        android:layout_marginBottom="@dimen/margin_edit_text"
-        android:layout_marginTop="@dimen/margin_edit_text"
-        tools:background="@color/purple_200"/>
+        tools:background="@color/purple_200" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        style="@style/EditText"
         android:id="@+id/edit_view_note"
+        style="@style/EditText"
         android:layout_weight="5"
+        android:gravity="start"
         android:hint="@string/hint_note"
-        android:textSize="@dimen/note_text_size"
-        android:gravity="start"/>
+        android:textSize="@dimen/note_text_size" />
 
 </LinearLayout>

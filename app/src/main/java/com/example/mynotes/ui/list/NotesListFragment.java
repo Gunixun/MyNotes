@@ -72,9 +72,9 @@ public class NotesListFragment extends Fragment implements NotesListView {
             getParentFragmentManager()
                     .setFragmentResult(RESULT_KEY, data);
         });
-        ((TextView)view.findViewById(R.id.note_title)).setText(note.getTitle());
-        ((TextView)view.findViewById(R.id.note_body)).setText(note.getBody());
-        ((TextView)view.findViewById(R.id.note_date)).setText(note.getDateString());
+        ((TextView) view.findViewById(R.id.note_title)).setText(note.getTitle());
+        ((TextView) view.findViewById(R.id.note_body)).setText(note.getBody());
+        ((TextView) view.findViewById(R.id.note_date)).setText(note.getDateString());
         notesContainer.addView(view);
     }
 }

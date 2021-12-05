@@ -13,8 +13,8 @@ public class NotesPresenter {
         this.repository = repository;
     }
 
-    public void addNode(Note note){
-        if (repository.addNote(note)){
+    public void addNode(Note note) {
+        if (repository.addNote(note)) {
             view.createNote(note);
         }
     }

@@ -53,9 +53,10 @@ public class Note implements Parcelable {
         return date;
     }
 
-    public String getDateString(){
+    public String getDateString() {
         return date.toString();
     }
+
     @Override
     public int describeContents() {
         return 0;
