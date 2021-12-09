@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentResultListener;
 
+import com.example.mynotes.MainActivity;
 import com.example.mynotes.R;
 import com.example.mynotes.tools.Note;
 import com.example.mynotes.ui.list.NotesListFragment;
@@ -39,10 +40,6 @@ public class NoteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            view.findViewById(R.id.button_back).setVisibility(View.INVISIBLE);
-        }
-
         titleView = view.findViewById(R.id.edit_view_title_note);
         bodyView = view.findViewById(R.id.edit_view_note);
 
@@ -55,24 +52,18 @@ public class NoteFragment extends Fragment {
             if (note != null) {
                 note.setBody(bodyView.getText().toString());
                 note.setTitle(titleView.getText().toString());
+                Bundle data = new Bundle();
+                data.putParcelable(NoteFragment.ARG_NOTE, note);
+                getParentFragmentManager().setFragmentResult(NOTE_UPDATE_KEY, data);
             }
         });
 
         view.findViewById(R.id.button_back).setOnClickListener(v -> {
             FragmentActivity activity = getActivity();
             if (activity != null) {
-                ((NoteActivity) activity).onBackPressed();
+                ((MainActivity) activity).onBackPressed();
             }
         });
-
-        getParentFragmentManager()
-                .setFragmentResultListener(NOTE_UPDATE_KEY, getViewLifecycleOwner(), new FragmentResultListener() {
-                    @Override
-                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                        Note note = result.getParcelable(ARG_NOTE);
-                        displayNote(note);
-                    }
-                });
     }
 
     private void displayNote(Note note) {

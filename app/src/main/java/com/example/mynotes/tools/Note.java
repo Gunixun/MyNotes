@@ -57,6 +57,10 @@ public class Note implements Parcelable {
         return date.toString();
     }
 
+    public boolean isEmpty(){
+        return title.equals("") && body.equals("");
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -68,4 +72,5 @@ public class Note implements Parcelable {
         dest.writeString(title);
         dest.writeLong(date.getTime());
     }
+
 }

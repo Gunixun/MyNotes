@@ -6,7 +6,7 @@ public interface NotesRepository {
 
     public List<Note> getNotes();
 
-    boolean addNote(Note city);
+    boolean addNote(Note note);
 
-    boolean removeNote(Note city);
+    boolean removeNote(Note note);
 }

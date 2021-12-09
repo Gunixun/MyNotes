@@ -2,44 +2,48 @@ package com.example.mynotes;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
+import com.example.mynotes.tools.NotesRepository;
 import com.example.mynotes.ui.list.NotesListFragment;
-import com.example.mynotes.ui.note.NoteActivity;
 import com.example.mynotes.ui.note.NoteFragment;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private Note selectedNote;
+    private InMemoryNotesRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        repository = new ViewModelProvider(this).get(InMemoryNotesRepository.class);
+
         FragmentManager fm = getSupportFragmentManager();
 
-        fm.setFragmentResultListener(NotesListFragment.RESULT_KEY, this, (requestKey, result) -> {
-            selectedNote = result.getParcelable(NotesListFragment.ARG_NOTE);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                showNotes();
-            } else {
-                Intent intent = new Intent(MainActivity.this, NoteActivity.class);
-                intent.putExtra(NoteActivity.SELECTED_NOTE, selectedNote);
-                startActivity(intent);
-            }
-        });
-    }
+        fm.setFragmentResultListener(NotesListFragment.OPEN_NOTE_KEY, this, (requestKey, result) -> {
+            Note note = result.getParcelable(NoteFragment.ARG_NOTE);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, NoteFragment.newInstance(note))
+                    .addToBackStack("Transaction1")
+                    .commit();
 
-    private void showNotes() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(NoteFragment.ARG_NOTE, selectedNote);
-        getSupportFragmentManager()
-                .setFragmentResult(NoteFragment.NOTE_UPDATE_KEY, bundle);
+        });
+        fm.setFragmentResultListener(NoteFragment.NOTE_UPDATE_KEY, this, (requestKey, result) -> {
+            Note note = result.getParcelable(NoteFragment.ARG_NOTE);
+            if (!note.isEmpty()) {
+                repository.addNote(note);
+            }else{
+                repository.removeNote(note);
+            }
+
+        });
     }
 }

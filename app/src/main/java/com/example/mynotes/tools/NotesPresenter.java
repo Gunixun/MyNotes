@@ -8,15 +8,12 @@ public class NotesPresenter {
 
     private NotesRepository repository;
 
-    public NotesPresenter(NotesListView view, NotesRepository repository) {
+    public NotesPresenter(NotesListView view) {
         this.view = view;
-        this.repository = repository;
     }
 
-    public void addNode(Note note) {
-        if (repository.addNote(note)) {
-            view.createNote(note);
-        }
+    public void setRepository(NotesRepository repository){
+        this.repository = repository;
     }
 
     public void refresh() {

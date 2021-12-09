@@ -1,17 +1,15 @@
 package com.example.mynotes.tools;
 
+import androidx.lifecycle.ViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryNotesRepository implements NotesRepository {
+public class InMemoryNotesRepository extends ViewModel implements NotesRepository {
 
     private final List<Note> notes = new ArrayList<>();
 
     public List<Note> getNotes() {
-        Note note = new Note();
-        note.setTitle("Test");
-        note.setBody("Test 2");
-        addNote(note);
         return notes;
     }
 

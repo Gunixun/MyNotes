@@ -8,33 +8,28 @@
 
     <TextView
         android:id="@+id/note_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/TextView"
         android:layout_marginHorizontal="@dimen/margin"
         android:layout_marginVertical="@dimen/margin"
         android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textSize="@dimen/header_text_size"
         android:textStyle="bold"
         tools:text="Заголовок заметки" />
 
     <TextView
         android:id="@+id/note_body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/TextView"
         android:layout_marginLeft="@dimen/margin_body"
         android:layout_marginRight="@dimen/margin_body"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textSize="@dimen/note_text_size"
         tools:text="Заметка" />
 
     <TextView
         android:id="@+id/note_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/TextView"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:background="@drawable/view_bottom_border"
         android:textSize="@dimen/date_text_size"
         tools:text="25.06.18" />
 
