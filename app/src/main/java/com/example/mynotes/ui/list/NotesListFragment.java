@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +25,7 @@ import java.util.List;
 
 public class NotesListFragment extends Fragment implements NotesListView {
 
+    public static final String REMOVE_NOTE_KEY = "REMOVE_NOTE_KEY";
     public static final String OPEN_NOTE_KEY = "OPEN_NOTE_KEY";
 
     private LinearLayout notesContainer;
@@ -54,6 +57,7 @@ public class NotesListFragment extends Fragment implements NotesListView {
 
     @Override
     public void showNotes(List<Note> notes) {
+        notesContainer.removeAllViews();
         for (Note note : notes) {
             createNote(note);
         }
@@ -63,6 +67,23 @@ public class NotesListFragment extends Fragment implements NotesListView {
         View view = LayoutInflater.from(requireContext()).inflate(R.layout.item_note, notesContainer, false);
         view.setOnClickListener(v -> {
             setResult(note);
+        });
+        view.setOnLongClickListener(v->{
+            PopupMenu popupMenu = new PopupMenu(requireContext(), v);
+            requireActivity().getMenuInflater().inflate(R.menu.menu_note, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(item->{
+                switch (item.getItemId()) {
+                    case R.id.action_remove:
+                        Bundle data = new Bundle();
+                        data.putParcelable(NoteFragment.ARG_NOTE, note);
+                        getParentFragmentManager().setFragmentResult(REMOVE_NOTE_KEY, data);
+                        presenter.refresh();
+                        return true;
+                }
+                return false;
+            });
+            popupMenu.show();
+            return true;
         });
         ((TextView) view.findViewById(R.id.note_title)).setText(note.getTitle());
         ((TextView) view.findViewById(R.id.note_body)).setText(note.getBody());

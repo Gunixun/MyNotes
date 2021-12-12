@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 repository.removeNote(note);
             }
-
+        });
+        fm.setFragmentResultListener(NotesListFragment.REMOVE_NOTE_KEY, this, (requestKey, result) -> {
+            Note note = result.getParcelable(NoteFragment.ARG_NOTE);
+            repository.removeNote(note);
         });
     }
 }

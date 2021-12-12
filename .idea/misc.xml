@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/android/java/MyNotes/app/src/main/res/drawable-v24/ic_baseline_delete_24.xml" value="0.1" />
         <entry key="..\:/android/java/MyNotes/app/src/main/res/drawable-v24/view_top_bottom_border.xml" value="0.1" />
         <entry key="..\:/android/java/MyNotes/app/src/main/res/layout-land/activity_main.xml" value="0.1" />
         <entry key="..\:/android/java/MyNotes/app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -10,6 +11,7 @@
         <entry key="..\:/android/java/MyNotes/app/src/main/res/layout/fragment_note.xml" value="0.2924281984334204" />
         <entry key="..\:/android/java/MyNotes/app/src/main/res/layout/fragment_note_list.xml" value="0.18" />
         <entry key="..\:/android/java/MyNotes/app/src/main/res/layout/item_note.xml" value="0.2" />
+        <entry key="..\:/android/java/MyNotes/app/src/main/res/menu/menu_note.xml" value="0.1" />
       </map>
     </option>
   </component>
