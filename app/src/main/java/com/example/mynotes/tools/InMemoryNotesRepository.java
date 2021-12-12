@@ -27,4 +27,10 @@ public class InMemoryNotesRepository extends ViewModel implements NotesRepositor
         notes.remove(note);
         return true;
     }
+
+    @Override
+    public boolean clear(){
+        notes.clear();
+        return true;
+    }
 }

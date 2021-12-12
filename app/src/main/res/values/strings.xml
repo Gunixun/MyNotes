@@ -5,4 +5,10 @@
     <string name="tooltip_add_button">Создать заметку</string>
     <string name="hint_create_button">Добавить заметку</string>
     <string name="action_remove">Удалить</string>
+    <string name="about_program">О программе</string>
+    <string name="nav_app_bar_open_drawer_description">Открытие панели навигации</string>
+    <string name="nav_app_bar_navigate_up_description">Закрытие панели навигации</string>
+    <string name="program_info">Приложение заметок</string>
+    <string name="action_clear">Очистить</string>
+    <string name="action_tools">Инструменты</string>
 </resources>

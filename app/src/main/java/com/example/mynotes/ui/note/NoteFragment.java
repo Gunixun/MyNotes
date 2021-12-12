@@ -1,6 +1,5 @@
 package com.example.mynotes.ui.note;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,12 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentResultListener;
 
 import com.example.mynotes.MainActivity;
 import com.example.mynotes.R;
 import com.example.mynotes.tools.Note;
-import com.example.mynotes.ui.list.NotesListFragment;
+
 
 public class NoteFragment extends Fragment {
     public static String ARG_NOTE = "ARG_NOTE";

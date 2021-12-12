@@ -9,4 +9,6 @@ public interface NotesRepository {
     boolean addNote(Note note);
 
     boolean removeNote(Note note);
+
+    boolean clear();
 }
