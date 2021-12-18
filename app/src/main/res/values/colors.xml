@@ -10,4 +10,8 @@
     <color name="def_background">#FFFFFF</color>
     <color name="alternate_background">#FF8800</color>
     <color name="color_border">#FF8800</color>
+    <color name="text_button_second">#FFFFFFFF</color>
+    <color name="text_button_first">#FF000000</color>
+    <color name="background_button_second">#C7C1C1</color>
+    <color name="background_button_first">#4761E6</color>
 </resources>

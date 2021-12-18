@@ -1,5 +1,6 @@
 package com.example.mynotes;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements navToolBar {
 
         repository = new ViewModelProvider(this).get(InMemoryNotesRepository.class);
         NavigationView navigationView = findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(item->{
+        navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_program_info:
                     openFragment(new AboutProgrammFragment());
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements navToolBar {
 
     }
 
-    private void connectSignals(){
+    private void connectSignals() {
         FragmentManager fm = getSupportFragmentManager();
 
         fm.setFragmentResultListener(NotesListFragment.OPEN_NOTE_KEY, this, (requestKey, result) -> {
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements navToolBar {
             Note note = result.getParcelable(NoteFragment.ARG_NOTE);
             if (!note.isEmpty()) {
                 repository.addNote(note);
-            }else{
+            } else {
                 repository.removeNote(note);
             }
         });
@@ -93,4 +95,24 @@ public class MainActivity extends AppCompatActivity implements navToolBar {
                 .commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() < 1) {
+
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.title)
+                    .setMessage(R.string.message)
+                    .setPositiveButton(R.string.positive, (dialogInterface, i) -> {
+                        Toast.makeText(this, "Good bye", Toast.LENGTH_SHORT).show();
+                        super.onBackPressed();
+                    })
+                    .setNegativeButton(R.string.negative, (dialogInterface, i) -> {
+                    })
+                    .setCancelable(false)
+                    .show();
+
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

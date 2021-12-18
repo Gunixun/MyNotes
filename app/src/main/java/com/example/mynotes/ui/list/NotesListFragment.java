@@ -18,6 +18,7 @@ import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
 import com.example.mynotes.tools.NotesPresenter;
 import com.example.mynotes.tools.navToolBar;
+import com.example.mynotes.ui.dialogs.BottomSheetFragment;
 import com.example.mynotes.ui.note.NoteFragment;
 
 import java.util.List;
@@ -66,6 +67,12 @@ public class NotesListFragment extends Fragment implements NotesListView {
             }
             return false;
         });
+
+        getChildFragmentManager().setFragmentResultListener(BottomSheetFragment.REMOVE_NOTE, this, (requestKey, result) -> {
+            Note note = result.getParcelable(NoteFragment.ARG_NOTE);
+            repository.removeNote(note);
+            presenter.refresh();
+        });
     }
 
     @Override
@@ -82,20 +89,8 @@ public class NotesListFragment extends Fragment implements NotesListView {
             setResult(note);
         });
         view.setOnLongClickListener(v->{
-            PopupMenu popupMenu = new PopupMenu(requireContext(), v);
-            requireActivity().getMenuInflater().inflate(R.menu.menu_note, popupMenu.getMenu());
-            popupMenu.setOnMenuItemClickListener(item->{
-                switch (item.getItemId()) {
-                    case R.id.action_remove:
-                        Bundle data = new Bundle();
-                        data.putParcelable(NoteFragment.ARG_NOTE, note);
-                        getParentFragmentManager().setFragmentResult(REMOVE_NOTE_KEY, data);
-                        presenter.refresh();
-                        return true;
-                }
-                return false;
-            });
-            popupMenu.show();
+            BottomSheetFragment.newInstance(note)
+                    .show(getChildFragmentManager(), "BottomSheetFragment");
             return true;
         });
         ((TextView) view.findViewById(R.id.note_title)).setText(note.getTitle());

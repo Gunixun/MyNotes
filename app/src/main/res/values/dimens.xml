@@ -9,4 +9,5 @@
     <dimen name="title_text_size">30sp</dimen>
     <dimen name="header_text_size">25sp</dimen>
     <dimen name="date_text_size">15sp</dimen>
+    <dimen name="remove_header">18sp</dimen>
 </resources>
