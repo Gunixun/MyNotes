@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.mynotes.MainActivity;
 import com.example.mynotes.R;
 import com.example.mynotes.tools.Note;
 
@@ -59,7 +58,7 @@ public class NoteFragment extends Fragment {
         view.findViewById(R.id.button_back).setOnClickListener(v -> {
             FragmentActivity activity = getActivity();
             if (activity != null) {
-                ((MainActivity) activity).onBackPressed();
+                activity.onBackPressed();
             }
         });
     }

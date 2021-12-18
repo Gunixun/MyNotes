@@ -2,14 +2,10 @@ package com.example.mynotes.ui.list;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +13,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.mynotes.MainActivity;
 import com.example.mynotes.R;
 import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
 import com.example.mynotes.tools.NotesPresenter;
+import com.example.mynotes.tools.navToolBar;
 import com.example.mynotes.ui.note.NoteFragment;
 
 import java.util.List;
@@ -58,8 +54,9 @@ public class NotesListFragment extends Fragment implements NotesListView {
         presenter.refresh();
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((MainActivity) getActivity()).supplyToolbar(toolbar);
 
+        if (getActivity() instanceof navToolBar)
+            ((navToolBar)getActivity()).supplyToolbar(toolbar);
 
         toolbar.setOnMenuItemClickListener(item->{
             if (item.getItemId() == R.id.action_clear){

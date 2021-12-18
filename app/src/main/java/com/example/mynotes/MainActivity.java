@@ -13,13 +13,14 @@ import android.os.Bundle;
 
 import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
+import com.example.mynotes.tools.navToolBar;
 import com.example.mynotes.ui.AboutProgrammFragment;
 import com.example.mynotes.ui.list.NotesListFragment;
 import com.example.mynotes.ui.note.NoteFragment;
 import com.google.android.material.navigation.NavigationView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements navToolBar {
 
     private DrawerLayout drawer;
     private InMemoryNotesRepository repository;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
     public void supplyToolbar(Toolbar toolbar) {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
