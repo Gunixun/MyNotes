@@ -20,4 +20,5 @@
     <string name="message">Закрыть приложение?</string>
     <string name="positive">Да</string>
     <string name="negative">Нет</string>
+    <string name="close_message">Good bye</string>
 </resources>

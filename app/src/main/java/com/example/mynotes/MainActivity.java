@@ -15,14 +15,14 @@ import android.widget.Toast;
 
 import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
-import com.example.mynotes.tools.navToolBar;
+import com.example.mynotes.tools.NavToolBar;
 import com.example.mynotes.ui.AboutProgrammFragment;
 import com.example.mynotes.ui.list.NotesListFragment;
 import com.example.mynotes.ui.note.NoteFragment;
 import com.google.android.material.navigation.NavigationView;
 
 
-public class MainActivity extends AppCompatActivity implements navToolBar {
+public class MainActivity extends AppCompatActivity implements NavToolBar {
 
     private DrawerLayout drawer;
     private InMemoryNotesRepository repository;
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements navToolBar {
                     .setTitle(R.string.title)
                     .setMessage(R.string.message)
                     .setPositiveButton(R.string.positive, (dialogInterface, i) -> {
-                        Toast.makeText(this, "Good bye", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.close_message), Toast.LENGTH_SHORT).show();
                         super.onBackPressed();
                     })
                     .setNegativeButton(R.string.negative, (dialogInterface, i) -> {

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +16,7 @@ import com.example.mynotes.R;
 import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
 import com.example.mynotes.tools.NotesPresenter;
-import com.example.mynotes.tools.navToolBar;
+import com.example.mynotes.tools.NavToolBar;
 import com.example.mynotes.ui.dialogs.BottomSheetFragment;
 import com.example.mynotes.ui.note.NoteFragment;
 
@@ -56,8 +55,9 @@ public class NotesListFragment extends Fragment implements NotesListView {
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
 
-        if (getActivity() instanceof navToolBar)
-            ((navToolBar)getActivity()).supplyToolbar(toolbar);
+        if (getActivity() instanceof NavToolBar) {
+            ((NavToolBar) getActivity()).supplyToolbar(toolbar);
+        }
 
         toolbar.setOnMenuItemClickListener(item->{
             if (item.getItemId() == R.id.action_clear){
