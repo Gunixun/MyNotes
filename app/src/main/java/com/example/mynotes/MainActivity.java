@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
-import com.example.mynotes.tools.NavToolBar;
-import com.example.mynotes.ui.AboutProgrammFragment;
+import com.example.mynotes.ui.NavToolBar;
+import com.example.mynotes.ui.AboutProgramFragment;
 import com.example.mynotes.ui.list.NotesListFragment;
 import com.example.mynotes.ui.note.NoteFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavToolBar {
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_program_info:
-                    openFragment(new AboutProgrammFragment());
+                    openFragment(new AboutProgramFragment());
                     drawer.closeDrawer(GravityCompat.START);
                     return true;
             }

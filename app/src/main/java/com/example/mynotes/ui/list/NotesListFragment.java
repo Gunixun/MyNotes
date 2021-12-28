@@ -1,24 +1,27 @@
 package com.example.mynotes.ui.list;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.mynotes.R;
 import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
 import com.example.mynotes.tools.NotesPresenter;
-import com.example.mynotes.tools.NavToolBar;
+import com.example.mynotes.ui.NavToolBar;
+import com.example.mynotes.ui.adapters.AdapterItem;
 import com.example.mynotes.ui.dialogs.BottomSheetFragment;
 import com.example.mynotes.ui.note.NoteFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -27,8 +30,12 @@ public class NotesListFragment extends Fragment implements NotesListView {
     public static final String REMOVE_NOTE_KEY = "REMOVE_NOTE_KEY";
     public static final String OPEN_NOTE_KEY = "OPEN_NOTE_KEY";
 
-    private LinearLayout notesContainer;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView notesList;
     private NotesPresenter presenter;
+    private CoordinatorLayout rootLayout;
+
+    private NotesAdapter adapter;
 
     public NotesListFragment() {
         super(R.layout.fragment_note_list);
@@ -38,6 +45,10 @@ public class NotesListFragment extends Fragment implements NotesListView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new NotesPresenter(this);
+
+        adapter = new NotesAdapter();
+        adapter.setOnClick(this::setResult);
+
     }
 
     @Override
@@ -46,12 +57,21 @@ public class NotesListFragment extends Fragment implements NotesListView {
         InMemoryNotesRepository repository = new ViewModelProvider(requireActivity()).get(InMemoryNotesRepository.class);
         presenter.setRepository(repository);
 
-        notesContainer = view.findViewById(R.id.notes_container);
+        rootLayout = view.findViewById(R.id.root_layout);
+
+        swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            presenter.requestNotes();
+        });
+
+        notesList = view.findViewById(R.id.notes_list);
+        notesList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        notesList.setAdapter(adapter);
 
         view.findViewById(R.id.button_add).setOnClickListener(v -> {
             setResult(new Note());
         });
-        presenter.refresh();
+        presenter.requestNotes();
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
 
@@ -59,10 +79,10 @@ public class NotesListFragment extends Fragment implements NotesListView {
             ((NavToolBar) getActivity()).supplyToolbar(toolbar);
         }
 
-        toolbar.setOnMenuItemClickListener(item->{
-            if (item.getItemId() == R.id.action_clear){
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_clear) {
                 repository.clear();
-                presenter.refresh();
+                presenter.requestNotes();
                 return true;
             }
             return false;
@@ -71,37 +91,38 @@ public class NotesListFragment extends Fragment implements NotesListView {
         getChildFragmentManager().setFragmentResultListener(BottomSheetFragment.REMOVE_NOTE, this, (requestKey, result) -> {
             Note note = result.getParcelable(NoteFragment.ARG_NOTE);
             repository.removeNote(note);
-            presenter.refresh();
+            presenter.requestNotes();
         });
-    }
-
-    @Override
-    public void showNotes(List<Note> notes) {
-        notesContainer.removeAllViews();
-        for (Note note : notes) {
-            createNote(note);
-        }
-    }
-
-    private void createNote(Note note) {
-        View view = LayoutInflater.from(requireContext()).inflate(R.layout.item_note, notesContainer, false);
-        view.setOnClickListener(v -> {
-            setResult(note);
-        });
-        view.setOnLongClickListener(v->{
-            BottomSheetFragment.newInstance(note)
-                    .show(getChildFragmentManager(), "BottomSheetFragment");
-            return true;
-        });
-        ((TextView) view.findViewById(R.id.note_title)).setText(note.getTitle());
-        ((TextView) view.findViewById(R.id.note_body)).setText(note.getBody());
-        ((TextView) view.findViewById(R.id.note_date)).setText(note.getDateString());
-        notesContainer.addView(view);
     }
 
     private void setResult(Note note) {
         Bundle data = new Bundle();
         data.putParcelable(NoteFragment.ARG_NOTE, note);
         getParentFragmentManager().setFragmentResult(OPEN_NOTE_KEY, data);
+    }
+
+    @Override
+    public void showProgress() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideProgress() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showNotes(List<AdapterItem> notes) {
+        adapter.setData(notes);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showError(String error) {
+        Snackbar.make(rootLayout, error, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry, view -> {
+                    presenter.requestNotes();
+                })
+                .show();
     }
 }

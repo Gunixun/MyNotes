@@ -1,4 +1,4 @@
-package com.example.mynotes.tools;
+package com.example.mynotes.ui;
 
 import androidx.appcompat.widget.Toolbar;
 

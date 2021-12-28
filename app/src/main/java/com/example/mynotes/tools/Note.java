@@ -13,6 +13,12 @@ public class Note implements Parcelable {
     public Note() {
     }
 
+    public Note(String body, String title, Date date) {
+        this.body = body;
+        this.title = title;
+        this.date = date;
+    }
+
     protected Note(Parcel in) {
         body = in.readString();
         title = in.readString();
@@ -51,10 +57,6 @@ public class Note implements Parcelable {
 
     public Date getDate() {
         return date;
-    }
-
-    public String getDateString() {
-        return date.toString();
     }
 
     public boolean isEmpty(){
