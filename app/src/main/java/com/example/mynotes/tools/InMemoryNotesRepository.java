@@ -47,7 +47,7 @@ public class InMemoryNotesRepository extends ViewModel implements NotesRepositor
                 e.printStackTrace();
             }
             handler.post(()->{
-                int index = 0;
+                int index = -1;
 
                 for (int i = 0; i < notes.size(); i++) {
                     if (notes.get(i).getId().equals(noteId)) {
@@ -56,12 +56,22 @@ public class InMemoryNotesRepository extends ViewModel implements NotesRepositor
                     }
                 }
 
-                Note editableNote = notes.get(index);
+                if (index == -1){
+                    notes.add(new Note(title, body, noteId));
+                }
+                else {
 
-                editableNote.setTitle(title);
-                editableNote.setBody(body);
+                    Note note = notes.get(index);
 
-                callback.onSuccess(editableNote);
+                    note.setTitle(title);
+                    note.setBody(body);
+                    if (note.isEmpty()) {
+                        notes.remove(note);
+                        callback.onSuccess(null);
+                    } else {
+                        callback.onSuccess(note);
+                    }
+                }
             });
         });
     }

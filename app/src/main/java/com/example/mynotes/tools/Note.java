@@ -11,16 +11,16 @@ public class Note implements Parcelable {
     private String title;
     private Date date;
 
-    public Note(String body, String title, String id) {
-        this.body = body;
+    public Note(String title, String body, String id) {
         this.title = title;
+        this.body = body;
         this.date = new Date();
         this.id = id;
     }
 
     protected Note(Parcel in) {
-        body = in.readString();
         title = in.readString();
+        body = in.readString();
         date = new Date(in.readLong());
     }
 
@@ -73,8 +73,8 @@ public class Note implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(body);
         dest.writeString(title);
+        dest.writeString(body);
         dest.writeLong(date.getTime());
     }
 
