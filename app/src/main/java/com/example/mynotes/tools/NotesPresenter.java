@@ -1,8 +1,11 @@
 package com.example.mynotes.tools;
 
+import android.os.Bundle;
+
 import com.example.mynotes.ui.adapters.AdapterItem;
 import com.example.mynotes.ui.adapters.NoteAdapterItem;
 import com.example.mynotes.ui.list.NotesListView;
+import com.example.mynotes.ui.note.NotePresenter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,17 +14,16 @@ import java.util.Locale;
 
 public class NotesPresenter {
 
+    public static final String KEY = "OPEN_NOTE_KEY";
+
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy", Locale.getDefault());
 
-    private NotesListView view;
+    private final NotesListView view;
 
-    private NotesRepository repository;
+    private final NotesRepository repository;
 
-    public NotesPresenter(NotesListView view) {
+    public NotesPresenter(NotesListView view, NotesRepository repository) {
         this.view = view;
-    }
-
-    public void setRepository(NotesRepository repository) {
         this.repository = repository;
     }
 
@@ -43,7 +45,7 @@ public class NotesPresenter {
                             )
                     );
                 }
-                view.showNotes(adapterItems);
+                view.updateNotes(adapterItems);
                 view.hideProgress();
 
             }
@@ -53,5 +55,43 @@ public class NotesPresenter {
                 view.hideProgress();
             }
         });
+    }
+
+    public void removeNote(Note note) {
+        view.showProgress();
+        repository.removeNote(note, new Callback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                view.hideProgress();
+                view.onNoteRemoved(note);
+            }
+
+            @Override
+            public void onError(Throwable err) {
+                view.hideProgress();
+            }
+        });
+    }
+
+    public void clear() {
+        view.showProgress();
+        repository.clear(new Callback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                view.hideProgress();
+                view.onNotesRemoved();
+            }
+
+            @Override
+            public void onError(Throwable err) {
+                view.hideProgress();
+            }
+        });
+    }
+
+    public void openNote(Note note) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(NotePresenter.ARG_NOTE, note);
+        view.openNote(KEY, bundle);
     }
 }

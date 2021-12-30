@@ -15,10 +15,11 @@ import android.widget.Toast;
 
 import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
+import com.example.mynotes.tools.NotesPresenter;
 import com.example.mynotes.ui.NavToolBar;
 import com.example.mynotes.ui.AboutProgramFragment;
-import com.example.mynotes.ui.list.NotesListFragment;
 import com.example.mynotes.ui.note.NoteFragment;
+import com.example.mynotes.ui.note.NotePresenter;
 import com.google.android.material.navigation.NavigationView;
 
 
@@ -53,22 +54,10 @@ public class MainActivity extends AppCompatActivity implements NavToolBar {
     private void connectSignals() {
         FragmentManager fm = getSupportFragmentManager();
 
-        fm.setFragmentResultListener(NotesListFragment.OPEN_NOTE_KEY, this, (requestKey, result) -> {
-            Note note = result.getParcelable(NoteFragment.ARG_NOTE);
+        fm.setFragmentResultListener(NotesPresenter.KEY, this, (requestKey, result) -> {
+            Note note = result.getParcelable(NotePresenter.ARG_NOTE);
             openFragment(NoteFragment.newInstance(note));
 
-        });
-        fm.setFragmentResultListener(NoteFragment.NOTE_UPDATE_KEY, this, (requestKey, result) -> {
-            Note note = result.getParcelable(NoteFragment.ARG_NOTE);
-            if (!note.isEmpty()) {
-                repository.addNote(note);
-            } else {
-                repository.removeNote(note);
-            }
-        });
-        fm.setFragmentResultListener(NotesListFragment.REMOVE_NOTE_KEY, this, (requestKey, result) -> {
-            Note note = result.getParcelable(NoteFragment.ARG_NOTE);
-            repository.removeNote(note);
         });
     }
 
