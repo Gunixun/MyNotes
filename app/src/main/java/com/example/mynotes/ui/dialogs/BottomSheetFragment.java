@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.example.mynotes.R;
 import com.example.mynotes.tools.Note;
 import com.example.mynotes.ui.note.NoteFragment;
+import com.example.mynotes.ui.note.NotePresenter;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment {
@@ -23,7 +24,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public static BottomSheetFragment newInstance(Note note) {
         BottomSheetFragment fragment = new BottomSheetFragment();
         Bundle args = new Bundle();
-        args.putParcelable(NoteFragment.ARG_NOTE, note);
+        args.putParcelable(NotePresenter.ARG_NOTE, note);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,7 +33,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            note = getArguments().getParcelable(NoteFragment.ARG_NOTE);
+            note = getArguments().getParcelable(NotePresenter.ARG_NOTE);
         }
     }
 
@@ -47,7 +48,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.remove).setOnClickListener(v -> {
             Bundle data = new Bundle();
-            data.putParcelable(NoteFragment.ARG_NOTE, note);
+            data.putParcelable(NotePresenter.ARG_NOTE, note);
             getParentFragmentManager().setFragmentResult(REMOVE_NOTE, data);
             dismiss();
         });

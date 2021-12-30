@@ -6,17 +6,16 @@ import android.os.Parcelable;
 import java.util.Date;
 
 public class Note implements Parcelable {
+    private String id;
     private String body;
     private String title;
-    private Date date = new Date();
+    private Date date;
 
-    public Note() {
-    }
-
-    public Note(String body, String title, Date date) {
+    public Note(String body, String title, String id) {
         this.body = body;
         this.title = title;
-        this.date = date;
+        this.date = new Date();
+        this.id = id;
     }
 
     protected Note(Parcel in) {
@@ -59,8 +58,12 @@ public class Note implements Parcelable {
         return date;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return title.equals("") && body.equals("");
+    }
+
+    public String getId() {
+        return id;
     }
 
     @Override

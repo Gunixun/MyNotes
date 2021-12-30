@@ -6,8 +6,8 @@ import android.os.Looper;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -23,45 +23,78 @@ public class InMemoryNotesRepository extends ViewModel implements NotesRepositor
 
     public InMemoryNotesRepository(){
         super();
-        addNote(new Note("dfgdfgf", "fghgfhgh", new Date()));
-        addNote(new Note("dfgdfgf", "fghgfhgh", new Date()));
-        addNote(new Note("dfgdfgf", "fghgfhgh", new Date()));
-        addNote(new Note("dfgdfgf", "fghgfhgh", new Date()));
+        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString()));
+        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString()));
+        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString()));
+        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString()));
     }
 
     @Override
     public void getNotes(Callback<List<Note>> callback) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onSuccess(notes);
-                    }
-                });
-            }
+        executor.execute(()->{
+            handler.post(()->{
+                callback.onSuccess(notes);
+            });
         });
     }
 
     @Override
-    public boolean addNote(Note note) {
-        if (!notes.contains(note)) {
-            notes.add(note);
-            return true;
-        }
-        return false;
+    public void updateNote(String noteId, String title, String body, Callback<Note> callback){
+        executor.execute(()->{
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            handler.post(()->{
+                int index = 0;
+
+                for (int i = 0; i < notes.size(); i++) {
+                    if (notes.get(i).getId().equals(noteId)) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                Note editableNote = notes.get(index);
+
+                editableNote.setTitle(title);
+                editableNote.setBody(body);
+
+                callback.onSuccess(editableNote);
+            });
+        });
     }
 
     @Override
-    public boolean removeNote(Note note) {
-        notes.remove(note);
-        return true;
+    public void removeNote(Note note, Callback<Void> callback) {
+
+        executor.execute(()->{
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            handler.post(()->{
+                notes.remove(note);
+                callback.onSuccess(null);
+            });
+        });
     }
 
     @Override
-    public boolean clear(){
-        notes.clear();
-        return true;
+    public void clear(Callback<Void> callback){
+
+        executor.execute(()->{
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            handler.post(()->{
+                notes.clear();
+                callback.onSuccess(null);
+            });
+        });
     }
 }
