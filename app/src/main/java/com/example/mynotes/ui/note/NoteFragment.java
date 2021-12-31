@@ -14,8 +14,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mynotes.R;
-import com.example.mynotes.tools.InMemoryNotesRepository;
+import com.example.mynotes.tools.FirestoreNotesRepository;
 import com.example.mynotes.tools.Note;
+import com.google.android.material.snackbar.Snackbar;
 
 
 public class NoteFragment extends Fragment implements NoteView {
@@ -40,7 +41,7 @@ public class NoteFragment extends Fragment implements NoteView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        InMemoryNotesRepository repository = new ViewModelProvider(requireActivity()).get(InMemoryNotesRepository.class);
+        FirestoreNotesRepository repository = new ViewModelProvider(requireActivity()).get(FirestoreNotesRepository.class);
 
         titleView = view.findViewById(R.id.edit_view_title_note);
         bodyView = view.findViewById(R.id.edit_view_note);

@@ -32,6 +32,6 @@ public class DiffUtilsAdapterItems extends DiffUtil.Callback  {
 
     @Override
     public boolean areContentsTheSame(int oldPos, int newPos) {
-        return newData.get(oldPos).equals(oldData.get(oldPos));
+        return newData.get(newPos).equals(oldData.get(oldPos));
     }
 }

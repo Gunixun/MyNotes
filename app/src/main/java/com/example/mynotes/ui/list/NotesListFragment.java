@@ -14,18 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.mynotes.R;
-import com.example.mynotes.tools.InMemoryNotesRepository;
+import com.example.mynotes.tools.FirestoreNotesRepository;
 import com.example.mynotes.tools.Note;
 import com.example.mynotes.tools.NotesPresenter;
 import com.example.mynotes.ui.NavToolBar;
 import com.example.mynotes.ui.adapters.AdapterItem;
 import com.example.mynotes.ui.dialogs.BottomSheetFragment;
-import com.example.mynotes.ui.note.NoteFragment;
 import com.example.mynotes.ui.note.NotePresenter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NotesListFragment extends Fragment implements NotesListView {
 
@@ -66,7 +64,7 @@ public class NotesListFragment extends Fragment implements NotesListView {
         super.onViewCreated(view, savedInstanceState);
         presenter = new NotesPresenter(
                 this,
-                new ViewModelProvider(requireActivity()).get(InMemoryNotesRepository.class)
+                new ViewModelProvider(requireActivity()).get(FirestoreNotesRepository.class)
         );
         rootLayout = view.findViewById(R.id.root_layout);
 

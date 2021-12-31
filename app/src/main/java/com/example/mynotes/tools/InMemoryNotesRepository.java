@@ -6,6 +6,7 @@ import android.os.Looper;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executor;
@@ -23,10 +24,10 @@ public class InMemoryNotesRepository extends ViewModel implements NotesRepositor
 
     public InMemoryNotesRepository(){
         super();
-        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString()));
-        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString()));
-        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString()));
-        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString()));
+        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString(), new Date()));
+        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString(), new Date()));
+        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString(), new Date()));
+        notes.add(new Note("dfgdfgf", "fghgfhgh", UUID.randomUUID().toString(), new Date()));
     }
 
     @Override
@@ -57,7 +58,7 @@ public class InMemoryNotesRepository extends ViewModel implements NotesRepositor
                 }
 
                 if (index == -1){
-                    notes.add(new Note(title, body, noteId));
+                    notes.add(new Note(title, body, noteId, new Date()));
                 }
                 else {
 
