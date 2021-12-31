@@ -1,5 +1,6 @@
 package com.example.mynotes;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,8 +17,12 @@ import com.example.mynotes.tools.Note;
 import com.example.mynotes.tools.NotesPresenter;
 import com.example.mynotes.ui.NavToolBar;
 import com.example.mynotes.ui.AboutProgramFragment;
+import com.example.mynotes.ui.auth.AuthFragment;
+import com.example.mynotes.ui.list.NotesListFragment;
 import com.example.mynotes.ui.note.NoteFragment;
 import com.example.mynotes.ui.note.NotePresenter;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.navigation.NavigationView;
 
 
@@ -29,6 +34,18 @@ public class MainActivity extends AppCompatActivity implements NavToolBar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        if (savedInstanceState == null) {
+
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+            if (account == null) {
+                openFragment(new AuthFragment());
+            } else {
+                openFragment(new NotesListFragment());
+            }
+        }
 
         drawer = findViewById(R.id.drawer);
 
@@ -54,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements NavToolBar {
             Note note = result.getParcelable(NotePresenter.ARG_NOTE);
             openFragment(NoteFragment.newInstance(note));
 
+        });
+
+        fm.setFragmentResultListener(AuthFragment.KEY, this, (requestKey, result) -> {
+            openFragment(new NotesListFragment());
         });
     }
 
