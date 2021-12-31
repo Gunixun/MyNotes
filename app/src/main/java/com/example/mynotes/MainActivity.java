@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity implements NavToolBar {
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
             if (account == null) {
-                openFragment(new AuthFragment());
+                openFragment(new AuthFragment(), false);
             } else {
-                openFragment(new NotesListFragment());
+                openFragment(new NotesListFragment(), false);
             }
         }
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavToolBar {
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_program_info:
-                    openFragment(new AboutProgramFragment());
+                    openFragment(new AboutProgramFragment(), true);
                     drawer.closeDrawer(GravityCompat.START);
                     return true;
             }
@@ -69,12 +69,12 @@ public class MainActivity extends AppCompatActivity implements NavToolBar {
 
         fm.setFragmentResultListener(NotesPresenter.KEY, this, (requestKey, result) -> {
             Note note = result.getParcelable(NotePresenter.ARG_NOTE);
-            openFragment(NoteFragment.newInstance(note));
+            openFragment(NoteFragment.newInstance(note), true);
 
         });
 
         fm.setFragmentResultListener(AuthFragment.KEY, this, (requestKey, result) -> {
-            openFragment(new NotesListFragment());
+            openFragment(new NotesListFragment(), false);
         });
     }
 
@@ -93,12 +93,20 @@ public class MainActivity extends AppCompatActivity implements NavToolBar {
 
     }
 
-    private void openFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack("Transaction")
-                .commit();
+    private void openFragment(Fragment fragment, Boolean withTransaction) {
+        if (withTransaction) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack("Transaction")
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+        }
+
     }
 
     @Override
