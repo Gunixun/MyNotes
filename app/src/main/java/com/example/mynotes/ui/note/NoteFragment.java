@@ -1,6 +1,8 @@
 package com.example.mynotes.ui.note;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,8 +14,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mynotes.R;
-import com.example.mynotes.tools.InMemoryNotesRepository;
+import com.example.mynotes.tools.FirestoreNotesRepository;
 import com.example.mynotes.tools.Note;
+import com.google.android.material.snackbar.Snackbar;
 
 
 public class NoteFragment extends Fragment implements NoteView {
@@ -38,14 +41,14 @@ public class NoteFragment extends Fragment implements NoteView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        InMemoryNotesRepository repository = new ViewModelProvider(requireActivity()).get(InMemoryNotesRepository.class);
+        FirestoreNotesRepository repository = new ViewModelProvider(requireActivity()).get(FirestoreNotesRepository.class);
 
         titleView = view.findViewById(R.id.edit_view_title_note);
         bodyView = view.findViewById(R.id.edit_view_note);
 
         if (getArguments() == null || getArguments().getParcelable(NotePresenter.ARG_NOTE) == null) {
             presenter = new NotePresenter(this, repository);
-        } else{
+        } else {
             presenter = new NotePresenter(
                     this,
                     repository,
@@ -60,6 +63,27 @@ public class NoteFragment extends Fragment implements NoteView {
                     bodyView.getText().toString()
             );
         });
+
+        TextWatcher textWatcher = new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setDirty();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+
+        titleView.addTextChangedListener(textWatcher);
+        bodyView.addTextChangedListener(textWatcher);
 
         view.findViewById(R.id.button_back).setOnClickListener(v -> {
             FragmentActivity activity = getActivity();
@@ -85,5 +109,9 @@ public class NoteFragment extends Fragment implements NoteView {
         btnApply.setEnabled(false);
     }
 
+    @Override
+    public void setDirty() {
+        btnApply.setEnabled(true);
+    }
 
 }

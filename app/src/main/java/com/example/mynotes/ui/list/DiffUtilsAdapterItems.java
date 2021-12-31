@@ -3,15 +3,14 @@ package com.example.mynotes.ui.list;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.example.mynotes.ui.adapters.AdapterItem;
-import com.example.mynotes.ui.adapters.NoteAdapterItem;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DiffUtilsAdapterItems extends DiffUtil.Callback  {
-    ArrayList<AdapterItem> newData;
-    ArrayList<AdapterItem> oldData;
+    private final List<AdapterItem> newData;
+    private final List<AdapterItem> oldData;
 
-    public DiffUtilsAdapterItems(ArrayList<AdapterItem> newData, ArrayList<AdapterItem> oldData) {
+    public DiffUtilsAdapterItems(List<AdapterItem> newData, List<AdapterItem> oldData) {
         this.newData = newData;
         this.oldData = oldData;
     }
@@ -28,21 +27,11 @@ public class DiffUtilsAdapterItems extends DiffUtil.Callback  {
 
     @Override
     public boolean areItemsTheSame(int oldPos, int newPos) {
-        return newData.get(newPos) instanceof NoteAdapterItem
-                && oldData.get(oldPos) instanceof NoteAdapterItem
-                && ((NoteAdapterItem) newData.get(newPos)).getNote().getId().equals(
-                        ((NoteAdapterItem) oldData.get(newPos)).getNote().getId());
+        return newData.get(newPos).getKey().equals(oldData.get(oldPos).getKey());
     }
 
     @Override
     public boolean areContentsTheSame(int oldPos, int newPos) {
-        if (newData.get(newPos) instanceof NoteAdapterItem
-                && oldData.get(oldPos) instanceof NoteAdapterItem) {
-            NoteAdapterItem newAdapter = (NoteAdapterItem) newData.get(newPos);
-            NoteAdapterItem oldAdapter = (NoteAdapterItem) oldData.get(oldPos);
-            return newAdapter.getBody().equals(oldAdapter.getBody())
-                    && newAdapter.getTitle().equals(oldAdapter.getTitle());
-        }
-        return false;
+        return newData.get(newPos).equals(oldData.get(oldPos));
     }
 }

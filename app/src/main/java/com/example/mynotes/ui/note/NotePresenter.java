@@ -33,11 +33,11 @@ public class NotePresenter {
     }
 
     public void onSaved(String title, String body) {
+        view.dirtyClear();
 
         repository.updateNote(noteId, title, body, new Callback<Note>() {
             @Override
             public void onSuccess(Note result) {
-                view.dirtyClear();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(ARG_NOTE, result);
                 view.onSaved(KEY, bundle);
@@ -45,7 +45,7 @@ public class NotePresenter {
 
             @Override
             public void onError(Throwable err) {
-
+                view.setDirty();
             }
         });
     }

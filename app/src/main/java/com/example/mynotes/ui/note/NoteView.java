@@ -8,4 +8,6 @@ public interface NoteView {
     void onSaved(String key, Bundle bundle);
 
     void dirtyClear();
+
+    void setDirty();
 }

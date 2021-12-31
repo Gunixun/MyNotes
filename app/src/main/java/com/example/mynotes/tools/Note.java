@@ -11,10 +11,10 @@ public class Note implements Parcelable {
     private String title;
     private Date date;
 
-    public Note(String title, String body, String id) {
+    public Note(String title, String body, String id, Date date) {
         this.title = title;
         this.body = body;
-        this.date = new Date();
+        this.date = date;
         this.id = id;
     }
 
