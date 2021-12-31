@@ -8,12 +8,10 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.mynotes.tools.InMemoryNotesRepository;
 import com.example.mynotes.tools.Note;
 import com.example.mynotes.tools.NotesPresenter;
 import com.example.mynotes.ui.NavToolBar;
@@ -26,7 +24,6 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavToolBar {
 
     private DrawerLayout drawer;
-    private InMemoryNotesRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements NavToolBar {
 
         drawer = findViewById(R.id.drawer);
 
-        repository = new ViewModelProvider(this).get(InMemoryNotesRepository.class);
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -92,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavToolBar {
                     .setTitle(R.string.title)
                     .setMessage(R.string.message)
                     .setPositiveButton(R.string.positive, (dialogInterface, i) -> {
-                        Toast.makeText(this, getResources().getString(R.string.close_message), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.close_message), Toast.LENGTH_SHORT).show();
                         super.onBackPressed();
                     })
                     .setNegativeButton(R.string.negative, (dialogInterface, i) -> {
